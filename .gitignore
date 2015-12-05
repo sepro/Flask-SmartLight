@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+.idea/
+.idea/*
+
+venv/
+venv/*
+
+
+config.py
