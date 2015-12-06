@@ -1,3 +1,5 @@
 
+DEBUG = False
+TESTING = False
 
-DEBUG=True
+SECRET_KEY = 'Change me'

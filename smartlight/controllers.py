@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint,render_template
 from blinkstick import blinkstick
 
 import json
@@ -8,7 +8,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return 'Hello World!'
+    return render_template('main.html')
 
 
 @main.route('/color/name/<name>')
@@ -20,6 +20,17 @@ def set_color_name(name):
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
         return json.dumps({'status': 'succes', 'message': 'Set color to ' + name})
+
+
+@main.route('/color/hex/<hex>')
+def set_color_hex(hex):
+    try:
+        led = blinkstick.find_first()
+        led.morph(hex='#'+hex)
+    except Exception as e:
+        return json.dumps({'status': 'error', 'message': str(e)})
+    else:
+        return json.dumps({'status': 'succes', 'message': 'Set color to ' + hex})
 
 
 @main.route('/color/rgb/<int:r>/<int:g>/<int:b>')
