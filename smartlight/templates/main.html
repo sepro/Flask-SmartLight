@@ -21,6 +21,7 @@
   <option value="#e1e1e1">Gray</option>
 </select>
 
+<p id="message"></p>
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.simplecolorpicker.js') }}"></script>
@@ -29,8 +30,14 @@
     $('select[name="colorpicker"]').simplecolorpicker({
         picker: true
     }).on('change', function() {
+        $('#message').fadeOut( 100 );
+
         var url = '{{ url_for('main.set_color_hex', hex='') }}' + $( this ).val().replace('#','');
-        $.getJSON( url );
+        $.getJSON( url, function(data) {
+            var text = data['message'];
+            $('#message').text(text);
+            $('#message').fadeIn( 100 );
+        });
     });
 </script>
 </body>

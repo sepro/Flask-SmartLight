@@ -30,7 +30,7 @@ def set_color_hex(hex):
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
-        return json.dumps({'status': 'succes', 'message': 'Set color to ' + hex})
+        return json.dumps({'status': 'succes', 'message': 'Set color to #' + hex})
 
 
 @main.route('/color/rgb/<int:r>/<int:g>/<int:b>')
