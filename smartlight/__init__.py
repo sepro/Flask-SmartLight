@@ -17,6 +17,7 @@ queue.put("Timer")
 
 animation_thread = Animations(queue)
 
+# Check this to make sure the Werkzeug reloader doesn't spawn an extra thread !
 if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     print("Starting animations thread...")
     animation_thread.start()
