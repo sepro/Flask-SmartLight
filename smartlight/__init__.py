@@ -6,15 +6,18 @@ from smartlight.animations import Animations
 
 import os
 
-app = Flask(__name__)
 
-app.config.from_object('config')
-
+# Find blinckstick and set mode
 led = blinkstick.find_first()
 
-queue = Queue()
-queue.put("Timer")
+if led is not None:
+    led.set_mode(3)
+else:
+    # raise "BlinkStick not found!"
+    pass
 
+# Create queue and threads for background workers
+queue = Queue()
 animation_thread = Animations(queue)
 
 # Check this to make sure the Werkzeug reloader doesn't spawn an extra thread !
@@ -22,11 +25,10 @@ if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
     print("Starting animations thread...")
     animation_thread.start()
 
-if led is not None:
-    led.set_mode(3)
-else:
-    # raise "BlinkStick not found!"
-    pass
+# Set up Flask App
+app = Flask(__name__)
+
+app.config.from_object('config')
 
 from smartlight.controllers import main
 app.register_blueprint(main)
