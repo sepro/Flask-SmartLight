@@ -3,6 +3,7 @@ from time import sleep
 
 from random import randint
 
+
 class Animations(Thread):
     def __init__(self, queue):
         Thread.__init__(self)
@@ -11,23 +12,17 @@ class Animations(Thread):
 
     def __timer(self):
         count = 1
-        while True:
+        while self.queue.empty():
             sleep(1)
             print("Sleeping for %d seconds" % count)
             count += 1
 
-            if not self.queue.empty():
-                return True
-
     def __random(self):
         count = 1
-        while True:
+        while self.queue.empty():
             sleep(1)
             print("Random number", randint(0, 100))
             count += 1
-
-            if not self.queue.empty():
-                break
 
     def run(self):
         while True:
