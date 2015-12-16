@@ -1,6 +1,7 @@
 from flask import Flask
 from blinkstick import blinkstick
 
+from config import DEBUG
 from queue import Queue
 from smartlight.animations import Animations
 
@@ -21,7 +22,7 @@ queue = Queue()
 animation_thread = Animations(queue)
 
 # Check this to make sure the Werkzeug reloader doesn't spawn an extra thread !
-if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not DEBUG:
     print("Starting animations thread...")
     animation_thread.start()
 
