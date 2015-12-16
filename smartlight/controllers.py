@@ -1,8 +1,7 @@
 from flask import Blueprint,render_template
 from blinkstick import blinkstick
 
-from time import sleep
-from threading import Thread
+from smartlight import queue
 
 import json
 
@@ -75,18 +74,19 @@ def turn_off():
         return json.dumps({'status': 'success', 'message': message})
 
 
-def thread():
-    for i in range(20):
-        sleep(1)
-        print("Sleeping for %d seconds" % i)
+@main.route('/thread/timer')
+def create_thread_timer():
+    queue.put("Timer")
+    return str(list(queue.queue))
 
 
-@main.route('/thread/start')
-def create_thread():
-    global t
-    t = Thread(target=thread)
-    t.daemon = True
-    t.start()
-    return "Thread Started..."
+@main.route('/thread/stop')
+def stop_thread():
+    queue.put("Stop")
+    return str(list(queue.queue))
 
 
+@main.route('/thread/random')
+def create_thread_random():
+    queue.put("Random")
+    return str(list(queue.queue))
