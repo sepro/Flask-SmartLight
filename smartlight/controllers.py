@@ -2,7 +2,7 @@ from flask import Blueprint,render_template
 from blinkstick import blinkstick
 
 from time import sleep
-import threading
+from threading import Thread
 
 import json
 
@@ -75,31 +75,18 @@ def turn_off():
         return json.dumps({'status': 'success', 'message': message})
 
 
-@main.route('/color/pulse/<name>')
-def pulse_color(name):
-    try:
-        led = blinkstick.find_first()
-        led.morph(name=name)
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        message = 'Pulsing to ' + name
-        return json.dumps({'status': 'success', 'message': message})
-
-
 def thread():
     for i in range(20):
         sleep(1)
         print("Sleeping for %d seconds" % i)
 
 
-@main.route('/thread/')
-@main.route('/thread')
+@main.route('/thread/start')
 def create_thread():
     global t
-    if t is not None:
-        t.isAlive = False
-    t = threading.Thread(target=thread)
+    t = Thread(target=thread)
     t.daemon = True
     t.start()
     return "Thread Started..."
+
+
