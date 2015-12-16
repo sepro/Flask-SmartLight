@@ -3,25 +3,47 @@
     <title>Flask-SmartLight Interface</title>
     <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename='css/jquery.simplecolorpicker.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text">
+                <h1><strong>Flask-SmartLight</strong> Control&nbsp;panel</h1>
+                <div class="description">
+                    <p>
+                        Control your Blinkstick from anywhere !
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                    <div class="text-center">
+                        <select name="colorpicker">
+                          <option value="#7bd148">Green</option>
+                          <option value="#5484ed">Bold blue</option>
+                          <option value="#a4bdfc">Blue</option>
+                          <option value="#46d6db">Turquoise</option> <br />
+                          <option value="#7ae7bf">Light green</option>
+                          <option value="#51b749">Bold green</option>
+                          <option value="#fbd75b">Yellow</option>
+                          <option value="#ffb878">Orange</option> <br />
+                          <option value="#ff887c">Red</option>
+                          <option value="#dc2127">Bold red</option>
+                          <option value="#dbadff">Purple</option>
+                          <option value="#e1e1e1">Gray</option>
+                        </select>
+                        <div class="alert-area center-block">
+                            <div  class="alert alert-success" role="alert"><span id="message">Select a color</span></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 
-<select name="colorpicker">
-  <option value="#7bd148">Green</option>
-  <option value="#5484ed">Bold blue</option>
-  <option value="#a4bdfc">Blue</option>
-  <option value="#46d6db">Turquoise</option>
-  <option value="#7ae7bf">Light green</option>
-  <option value="#51b749">Bold green</option>
-  <option value="#fbd75b">Yellow</option>
-  <option value="#ffb878">Orange</option>
-  <option value="#ff887c">Red</option>
-  <option value="#dc2127">Bold red</option>
-  <option value="#dbadff">Purple</option>
-  <option value="#e1e1e1">Gray</option>
-</select>
 
-<p id="message"></p>
+
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.simplecolorpicker.js') }}"></script>

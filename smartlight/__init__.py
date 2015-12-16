@@ -7,7 +7,12 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 led = blinkstick.find_first()
-led.set_mode(3)
+
+if led is not None:
+    led.set_mode(3)
+else:
+    # raise "BlinkStick not found!"
+    pass
 
 from smartlight.controllers import main
 app.register_blueprint(main)

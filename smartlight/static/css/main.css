@@ -1,0 +1,16 @@
+/*
+* Custom style for colorpicker
+*/
+
+.simplecolorpicker span {
+  padding: 10px;
+}
+
+.simplecolorpicker {
+  max-width: 190px;
+}
+.alert-area {
+  max-width: 190px;
+  padding-left: 10px;
+  padding-right: 15px;
+}
