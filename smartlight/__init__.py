@@ -19,7 +19,7 @@ else:
 
 # Create queue and threads for background workers
 queue = Queue()
-animation_thread = Animations(queue)
+animation_thread = Animations(queue, led)
 
 # Check this to make sure the Werkzeug reloader doesn't spawn an extra thread !
 if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not DEBUG:

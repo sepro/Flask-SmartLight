@@ -1,11 +1,10 @@
-from flask import Blueprint,render_template
-from blinkstick import blinkstick
+from flask import Blueprint, render_template
 
-from smartlight import queue
+from smartlight import queue, led, animation_thread
 
+from time import sleep
 import json
 
-t = None
 main = Blueprint('main', __name__)
 
 
@@ -16,8 +15,11 @@ def index():
 
 @main.route('/color/name/<name>')
 def set_color_name(name):
+    queue.put("Stop")
+    while animation_thread.is_running():
+        sleep(0.1)
+
     try:
-        led = blinkstick.find_first()
         led.set_color(name=name)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
@@ -27,8 +29,11 @@ def set_color_name(name):
 
 @main.route('/color/hex/<hex>')
 def set_color_hex(hex):
+    queue.put("Stop")
+    while animation_thread.is_running():
+        sleep(0.1)
+
     try:
-        led = blinkstick.find_first()
         led.set_color(hex='#'+hex)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
@@ -38,8 +43,11 @@ def set_color_hex(hex):
 
 @main.route('/color/rgb/<int:r>/<int:g>/<int:b>')
 def set_color_rgb(r, g, b):
+    queue.put("Stop")
+    while animation_thread.is_running():
+        sleep(0.1)
+
     try:
-        led = blinkstick.find_first()
         led.set_color(red=r, green=g, blue=b)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
@@ -52,7 +60,6 @@ def set_color_rgb(r, g, b):
 @main.route('/color')
 def get_color_rgb():
     try:
-        led = blinkstick.find_first()
         color = led.get_color()
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
@@ -65,7 +72,6 @@ def get_color_rgb():
 @main.route('/color/off')
 def turn_off():
     try:
-        led = blinkstick.find_first()
         led.turn_off()
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})

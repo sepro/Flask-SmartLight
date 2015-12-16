@@ -5,10 +5,12 @@ from random import randint
 
 
 class Animations(Thread):
-    def __init__(self, queue):
+    def __init__(self, queue, led):
         Thread.__init__(self)
         self.daemon = True
         self.queue = queue
+        self.led = led
+        self.running = False
 
     def __timer(self):
         count = 1
@@ -18,11 +20,18 @@ class Animations(Thread):
             count += 1
 
     def __random(self):
-        count = 1
+        self.running = True
         while self.queue.empty():
-            sleep(1)
-            print("Random number", randint(0, 100))
-            count += 1
+            r = randint(0, 255)
+            g = randint(0, 255)
+            b = randint(0, 255)
+
+            self.led.morph(red=r, green=g, blue=b, duration=1000, steps=50)
+            sleep(0.01)  # a short pause is required, diving in the next loop causes a crash
+        self.running = False
+
+    def is_running(self):
+        return self.running
 
     def run(self):
         while True:
