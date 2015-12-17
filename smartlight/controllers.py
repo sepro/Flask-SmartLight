@@ -71,3 +71,11 @@ def animation_random():
     animation_thread.random()
     message = 'Random animation started'
     return json.dumps({'status': 'success', 'message': message})
+
+
+@main.route('/animation/fire')
+@error_to_json
+def animation_fire():
+    animation_thread.fire()
+    message = 'Fire animation started'
+    return json.dumps({'status': 'success', 'message': message})
