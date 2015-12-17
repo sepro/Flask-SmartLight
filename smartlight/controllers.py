@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template
 
-from smartlight import queue, led, animation_thread
+from smartlight import animation_thread
 
-from time import sleep
 import json
 
 main = Blueprint('main', __name__)
@@ -15,12 +14,10 @@ def index():
 
 @main.route('/color/name/<name>')
 def set_color_name(name):
-    queue.put("Stop")
-    while animation_thread.is_running():
-        sleep(0.1)
+    animation_thread.stop()
 
     try:
-        led.set_color(name=name)
+        animation_thread.set_color(name=name)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
@@ -29,12 +26,10 @@ def set_color_name(name):
 
 @main.route('/color/hex/<hex>')
 def set_color_hex(hex):
-    queue.put("Stop")
-    while animation_thread.is_running():
-        sleep(0.1)
+    animation_thread.stop()
 
     try:
-        led.set_color(hex='#'+hex)
+        animation_thread.set_color(hex='#'+hex)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
@@ -43,12 +38,10 @@ def set_color_hex(hex):
 
 @main.route('/color/rgb/<int:r>/<int:g>/<int:b>')
 def set_color_rgb(r, g, b):
-    queue.put("Stop")
-    while animation_thread.is_running():
-        sleep(0.1)
+    animation_thread.stop()
 
     try:
-        led.set_color(red=r, green=g, blue=b)
+        animation_thread.set_color(red=r, green=g, blue=b)
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
@@ -60,7 +53,7 @@ def set_color_rgb(r, g, b):
 @main.route('/color')
 def get_color_rgb():
     try:
-        color = led.get_color()
+        color = animation_thread.get_color()
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
@@ -71,28 +64,26 @@ def get_color_rgb():
 @main.route('/color/off/')
 @main.route('/color/off')
 def turn_off():
+    animation_thread.stop()
+
     try:
-        led.turn_off()
+        animation_thread.turn_off()
     except Exception as e:
         return json.dumps({'status': 'error', 'message': str(e)})
     else:
-        message = 'Turned light off.'
+        message = 'Turned light off'
         return json.dumps({'status': 'success', 'message': message})
 
 
-@main.route('/thread/timer')
-def create_thread_timer():
-    queue.put("Timer")
-    return str(list(queue.queue))
+@main.route('/animation/stop')
+def animation_stop():
+    animation_thread.stop()
+    message = 'Animations stopped'
+    return json.dumps({'status': 'success', 'message': message})
 
 
-@main.route('/thread/stop')
-def stop_thread():
-    queue.put("Stop")
-    return str(list(queue.queue))
-
-
-@main.route('/thread/random')
-def create_thread_random():
-    queue.put("Random")
-    return str(list(queue.queue))
+@main.route('/animation/random')
+def animation_random():
+    animation_thread.random()
+    message = 'Random animation started'
+    return json.dumps({'status': 'success', 'message': message})
