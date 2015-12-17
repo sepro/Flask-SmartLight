@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 
 from smartlight import animation_thread
+from smartlight.utils import error_to_json
 
 import json
 
@@ -13,69 +14,51 @@ def index():
 
 
 @main.route('/color/name/<name>')
+@error_to_json
 def set_color_name(name):
     animation_thread.stop()
-
-    try:
-        animation_thread.set_color(name=name)
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        return json.dumps({'status': 'success', 'message': 'Set color to ' + name})
+    animation_thread.set_color(name=name)
+    return json.dumps({'status': 'success', 'message': 'Set color to ' + name})
 
 
 @main.route('/color/hex/<hex>')
+@error_to_json
 def set_color_hex(hex):
     animation_thread.stop()
-
-    try:
-        animation_thread.set_color(hex='#'+hex)
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        return json.dumps({'status': 'success', 'message': 'Set color to #' + hex})
+    animation_thread.set_color(hex='#'+hex)
+    return json.dumps({'status': 'success', 'message': 'Set color to #' + hex})
 
 
 @main.route('/color/rgb/<int:r>/<int:g>/<int:b>')
+@error_to_json
 def set_color_rgb(r, g, b):
     animation_thread.stop()
-
-    try:
-        animation_thread.set_color(red=r, green=g, blue=b)
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        message = 'Set color to rgb %d, %d, %d' % (r, g, b)
-        return json.dumps({'status': 'success', 'message': message})
+    animation_thread.set_color(red=r, green=g, blue=b)
+    message = 'Set color to rgb %d, %d, %d' % (r, g, b)
+    return json.dumps({'status': 'success', 'message': message})
 
 
 @main.route('/color/')
 @main.route('/color')
+@error_to_json
 def get_color_rgb():
-    try:
-        color = animation_thread.get_color()
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        message = 'Current color ' + str(color)
-        return json.dumps({'status': 'success', 'message': message, 'color': color})
+    color = animation_thread.get_color()
+    message = 'Current color ' + str(color)
+    return json.dumps({'status': 'success', 'message': message, 'color': color})
 
 
 @main.route('/color/off/')
 @main.route('/color/off')
+@error_to_json
 def turn_off():
     animation_thread.stop()
-
-    try:
-        animation_thread.turn_off()
-    except Exception as e:
-        return json.dumps({'status': 'error', 'message': str(e)})
-    else:
-        message = 'Turned light off'
-        return json.dumps({'status': 'success', 'message': message})
+    animation_thread.turn_off()
+    message = 'Turned light off'
+    return json.dumps({'status': 'success', 'message': message})
 
 
 @main.route('/animation/stop')
+@error_to_json
 def animation_stop():
     animation_thread.stop()
     message = 'Animations stopped'
@@ -83,6 +66,7 @@ def animation_stop():
 
 
 @main.route('/animation/random')
+@error_to_json
 def animation_random():
     animation_thread.random()
     message = 'Random animation started'
