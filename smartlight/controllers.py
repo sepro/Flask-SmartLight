@@ -69,7 +69,7 @@ def animation_stop():
 @error_to_json
 def animation_random():
     animation_thread.random()
-    message = 'Random animation started'
+    message = 'Random started'
     return json.dumps({'status': 'success', 'message': message})
 
 
@@ -77,7 +77,7 @@ def animation_random():
 @error_to_json
 def animation_fire():
     animation_thread.fire()
-    message = 'Fire animation started'
+    message = 'Fire started'
     return json.dumps({'status': 'success', 'message': message})
 
 

@@ -34,6 +34,12 @@
                           <option value="#dbadff">Purple</option>
                           <option value="#e1e1e1">Gray</option>
                         </select>
+                        <hr />
+                        <a href="{{ url_for('main.animation_random') }}" class="animation">Random</a>
+                        <a href="{{ url_for('main.animation_fire') }}" class="animation">Fire</a>
+                        <a href="{{ url_for('main.animation_strobe') }}" class="animation">Strobe</a>
+                        <a href="{{ url_for('main.turn_off') }}" class="animation">Off</a>
+                        <hr />
                         <div class="alert-area center-block">
                             <div  class="alert alert-success" role="alert"><span id="message">Select a color</span></div>
                         </div>
@@ -60,6 +66,20 @@
             $('#message').text(text);
             $('#message').fadeIn( 100 );
         });
+    });
+
+    $('.animation').click( function( event ) {
+        event.preventDefault();
+
+        var url = $( this ).attr('href');
+
+        $.getJSON( url, function(data) {
+            var text = data['message'];
+            $('#message').fadeOut( 100 );
+            $('#message').text(text);
+            $('#message').fadeIn( 100 );
+        });
+
     });
 </script>
 </body>
