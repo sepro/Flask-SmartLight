@@ -79,3 +79,11 @@ def animation_fire():
     animation_thread.fire()
     message = 'Fire animation started'
     return json.dumps({'status': 'success', 'message': message})
+
+
+@main.route('/animation/strobe')
+@error_to_json
+def animation_strobe():
+    animation_thread.strobe()
+    message = 'Strobe started'
+    return json.dumps({'status': 'success', 'message': message})

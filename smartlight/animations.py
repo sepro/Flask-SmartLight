@@ -10,6 +10,7 @@ from random import randint
 RND_CMD = 'random'
 FIRE_CMD = 'fire'
 STOP_CMD = 'stop'
+STROBE_CMD = 'strobe'
 
 FIRE_COLORS = ['#120903', '#1B0D05', '#251206', '#321407', '#4C1005', '#660B04',
                '#800602', '#9A0200', '#AB0601', '#B31403', '#BA2205', '#C12F08', '#C93D0A', '#D35E14',
@@ -73,6 +74,17 @@ class Animations(Thread):
 
         self.running = False
 
+    def __strobe(self):
+        self.running = True
+
+        while self.queue.empty():
+            self.set_color(name="white")
+            sleep(0.05)
+            self.set_color(name="black")
+            sleep(0.05)
+
+        self.running = False
+
     def is_running(self):
         return self.running
 
@@ -90,6 +102,9 @@ class Animations(Thread):
 
     def fire(self):
         self.queue.put(FIRE_CMD)
+
+    def strobe(self):
+        self.queue.put(STROBE_CMD)
 
     def stop(self, wait=True):
         self.queue.put(STOP_CMD)
@@ -113,6 +128,8 @@ class Animations(Thread):
                 self.__random()
             elif task == FIRE_CMD:
                 self.__fire()
+            elif task == STROBE_CMD:
+                self.__strobe()
             elif task == STOP_CMD:
                 self.running = False
                 print("Animations Stopped...")
