@@ -35,10 +35,12 @@
                           <option value="#e1e1e1">Gray</option>
                         </select>
                         <hr />
-                        <a href="{{ url_for('main.animation_random') }}" class="animation">Random</a>
-                        <a href="{{ url_for('main.animation_fire') }}" class="animation">Fire</a>
-                        <a href="{{ url_for('main.animation_strobe') }}" class="animation">Strobe</a>
-                        <a href="{{ url_for('main.turn_off') }}" class="animation">Off</a>
+                        <span id="animations" class="inline">
+                            <a href="{{ url_for('main.animation_random') }}" class="animation"><img src="{{ url_for('static', filename='img/random.png') }}" alt="Random"/></a>
+                            <a href="{{ url_for('main.animation_fire') }}" class="animation"><img src="{{ url_for('static', filename='img/fire.png') }}" alt="Fire"/></a>
+                            <a href="{{ url_for('main.animation_strobe') }}" class="animation"><img src="{{ url_for('static', filename='img/strobe.png') }}" alt="Strobe"/></a>
+                            <a href="{{ url_for('main.turn_off') }}" class="animation"><img src="{{ url_for('static', filename='img/off.png') }}" alt="Off"/></a>
+                        </span>
                         <hr />
                         <div class="alert-area center-block">
                             <div  class="alert alert-success" role="alert"><span id="message">Select a color</span></div>

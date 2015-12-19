@@ -3,18 +3,34 @@
 */
 
 .simplecolorpicker span {
-  padding: 10px;
+  width: 40px;
+  height: 40px;
+  margin: 2px;
 }
 
 .simplecolorpicker {
   max-width: 190px;
 }
 .alert-area {
-  max-width: 190px;
-  padding-left: 10px;
-  padding-right: 15px;
+  width: 172px;
 }
 
 hr {
-width: 185px;
+width: 120px;
+}
+
+#animations {
+width: 172px;
+}
+
+#animations > a > img {
+  width: 40px;
+  height: 40px;
+  margin: 0px;
+  display: inline-block;
+}
+
+#animations > a {
+  margin: 0px;
+  padding: 0px;
 }
