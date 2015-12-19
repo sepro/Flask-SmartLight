@@ -19,6 +19,11 @@ FIRE_COLORS = ['#120903', '#1B0D05', '#251206', '#321407', '#4C1005', '#660B04',
 
 class Animations(Thread):
     def __init__(self, app=None):
+        """
+        Sets up everything required, connects with the blinkstick and registers with the app
+
+        :param app: flask-app to register with
+        """
         Thread.__init__(self)
         self.daemon = True
         self.queue = Queue()
@@ -29,7 +34,7 @@ class Animations(Thread):
         if self.led is not None:
             self.led.set_mode(3)
         else:
-            raise "BlinkStick not found!"
+            raise Exception('Blinkstick not found')
 
         if app is not None:
             self.init_app(app)
@@ -51,6 +56,9 @@ class Animations(Thread):
             self.start()
 
     def __random(self):
+        """
+        Morph from one random color into another
+        """
         self.running = True
         while self.queue.empty():
             r = randint(0, 255)
@@ -62,6 +70,9 @@ class Animations(Thread):
         self.running = False
 
     def __fire(self):
+        """
+        Morph over fire-ish colors at random speeds
+        """
         self.running = True
 
         while self.queue.empty():
@@ -75,6 +86,9 @@ class Animations(Thread):
         self.running = False
 
     def __strobe(self):
+        """
+        Strobe light (about 10Hz)
+        """
         self.running = True
 
         while self.queue.empty():
@@ -86,38 +100,77 @@ class Animations(Thread):
         self.running = False
 
     def is_running(self):
+        """
+        Checks if an animation is currently running
+
+        :return: boolean True if an animation is currently running
+        """
         return self.running
 
     def set_color(self, *args, **kwargs):
+        """
+        Wraps blinksticks set_color
+        """
         self.led.set_color(*args, **kwargs)
 
     def get_color(self):
+        """
+        Wraps blinksticks get_color
+        """
         return self.led.get_color()
 
     def turn_off(self):
-        return self.led.turn_off()
+        """
+        Turns the light off
+        """
+        self.led.turn_off()
 
     def random(self):
+        """
+        Puts command to start the random animation on the queue
+        """
         self.queue.put(RND_CMD)
 
     def fire(self):
+        """
+        Puts command to start the fire animation on the queue
+        """
         self.queue.put(FIRE_CMD)
 
     def strobe(self):
+        """
+        Puts command to start the strobe light on the queue
+        """
         self.queue.put(STROBE_CMD)
 
     def stop(self, wait=True):
+        """
+        Puts command to stop animations on the queue
+
+        :param wait: if True the function will wait until the current animation is finished
+        """
         self.queue.put(STOP_CMD)
         while self.is_running() and wait:
             sleep(0.1)
 
     def get_queue(self):
+        """
+        Returns the queue
+        :return: the current queue
+        """
         return self.queue
 
     def get_led(self):
+        """
+        Returns the led
+        :return: the current led
+        """
         return self.led
 
     def run(self):
+        """
+        Function that runs when the thread is started, checks the queue and acts accordingly
+        """
         while True:
             task = None if self.queue.empty() else self.queue.get()
 
@@ -132,4 +185,3 @@ class Animations(Thread):
                 self.__strobe()
             elif task == STOP_CMD:
                 self.running = False
-                print("Animations Stopped...")
