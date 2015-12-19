@@ -12,7 +12,8 @@ Installation
 Python >= 3.3 and pip3 are required
 
     sudo apt-get install python3
-    sudo apt-get install pip3
+    sudo apt-get install pip3 *or* sudo apt-get install python-pip3
+    
 
 Install virtualenv
 
@@ -25,12 +26,12 @@ Clone the repository into a directory CookieRunner
 
 Set up the virtual environment
   
-    virtualenv --python=python3 Flask-SmartLight/
+    virtualenv --python=python3 Flask-SmartLight/venv
 
 Activate the virtual environment
 
     cd Flask-SmartLight/
-    source bin/activate
+    source venv/bin/activate
 
 Install the requirements
 
