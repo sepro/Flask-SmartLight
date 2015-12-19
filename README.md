@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]() [![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg)]() 
+[![GitHub release](https://img.shields.io/github/release/Flask-SmartLight/rubidium.svg)]() [![Github Releases](https://img.shields.io/github/downloads/sepro/Flask-SmartLight/latest/total.svg)]() 
 
 Flask-SmartLight Readme
 =======================
