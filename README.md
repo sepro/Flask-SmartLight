@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/github/release/sepro/Flask-SmartLight.svg)](https://github.com/sepro/Flask-SmartLight)
+[![GitHub release](https://img.shields.io/github/release/sepro/Flask-SmartLight.svg)](https://github.com/sepro/Flask-SmartLight) ![License](http://img.shields.io/:license-mit-blue.svg)
 
 Flask-SmartLight Readme
 =======================
