@@ -42,3 +42,21 @@ Copy the configuration template to config.py
     cp config.template.py config.py
 
 Change settings in config.py
+
+Setting up usb for non-root on Raspberry pi
+-------------------------------------------
+
+    # add a group called usb and add the user to this group
+    # replace <username> with the user's name
+    sudo groupadd usb
+    sudo usermod -G usb -a <username>
+    
+    # give this group access to usb devices
+    sudo nano /etc/udev/rules.d/99-com.rules
+    
+    # **add** the line below
+    SUBSYSTEM=="usb", GROUP="usb", MODE="0666"
+    
+    # restart the device with
+    sudo reboot
+    
