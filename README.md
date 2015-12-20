@@ -43,6 +43,74 @@ Copy the configuration template to config.py
 
 Change settings in config.py
 
+Running the app
+---------------
+
+I ran into trouble running the app using the uwsgi version included in raspbian. The solution was to run uwsgi in the
+virtual environment trough supervisor and hook that up to nginx.
+
+Install **supervisor** and **nginx**
+
+    sudo apt-get supervisor nginx
+    
+Install **uwsgi** through pip3 *within the virtual environment*
+
+    # Activate the virtual environment if this isn't done so
+    cd Flask-SmartLight/
+    source venv/bin/activate
+
+    # install uwsgi
+    pip3 install uwsgi
+    
+To set up supervisor create a file called */etc/supervisor/conf.d/smartlight.conf*
+
+    sudo nano /etc/supervisor/conf.d/smartlight.conf
+    
+Add these setting to this file: make sure to replace /home/sepro/git/Flask-SmartLight with the path on your machine!
+
+    [program:smartlight]
+    command=uwsgi -s /tmp/smartlight.sock -w smartlight:app --enable-threads -H /home/sepro/git/Flask-SmartLight/venv/ --uid www-data --gid www-data --chmod-socket=777
+    directory=/home/sepro/git/Flask-SmartLight
+    environment=PATH="/home/sepro/git/Flask-SmartLight/venv/bin"
+    autostart=true
+    autorestart=true
+    stderr_logfile=/var/log/smartlight.err.log
+    stdout_logfile=/var/log/smartlight.out.log
+
+
+To set up nginx create a file called */etc/nginx/sites-available/smartlight*
+
+    sudo nano /etc/nginx/sites-available/smartlight
+
+Add these settings to this file, it will bind the app to port 8000
+
+
+    server {
+            listen 8000 default_server;
+            listen [::]:8000 default_server;
+    
+            server_name _;
+            location / { try_files $uri @smartlight; }
+            location @smartlight {
+                include uwsgi_params;
+                uwsgi_pass unix:/tmp/smartlight.sock;
+            }
+    }
+
+Create a link to this file in /etc/nginx/sites-enabled
+
+    sudo ln -s /etc/nginx/sites-available/smartlight /etc/nginx/sites-enabled/smartlight
+    
+Restart the deamons
+  
+    sudo service supervisor restart
+    sudo service nginx restart
+    
+Check the supervisor log if everything is working
+
+    cat /var/log/smartlight.err.log
+
+
 Setting up usb for non-root on Raspberry pi
 -------------------------------------------
 
