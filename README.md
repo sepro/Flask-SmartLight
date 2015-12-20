@@ -11,9 +11,10 @@ Installation
 
 Python >= 3.3 and pip3 are required
 
-    sudo apt-get install python3
-    sudo apt-get install pip3 *or* sudo apt-get install python-pip3
-    
+```bash
+sudo apt-get install python3
+sudo apt-get install pip3 *or* sudo apt-get install python-pip3
+```    
 
 Install virtualenv
 
