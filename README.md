@@ -120,7 +120,7 @@ Setting up usb for non-root on Raspberry pi
     # add a group called usb and add the user to this group
     # replace <username> with the user's name
     sudo groupadd usb
-    sudo usermod -G usb -a <username>
+    sudo usermod -a -G usb <username>
     
     # give this group access to usb devices
     sudo nano /etc/udev/rules.d/99-com.rules
