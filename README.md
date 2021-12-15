@@ -1,5 +1,7 @@
 [![GitHub release](https://img.shields.io/github/release/sepro/Flask-SmartLight.svg)](https://github.com/sepro/Flask-SmartLight) ![License](http://img.shields.io/:license-mit-blue.svg)
 
+**NOTE**: This project has been archived. As the BlinkStick Square is supported by home assistant, this is a better way to control it using a smart phone. Albeit, lacking some of the animations included here. 
+
 Flask-SmartLight Readme
 =======================
 
